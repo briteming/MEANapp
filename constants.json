@@ -1,0 +1,13 @@
+{
+	"app":{
+		"name": "MEANapp",
+		"log": "./debug.log"
+	},
+	"web":{
+		"port": 3000
+	},
+	"db":{
+		"url": "localhost:27017/MEANapp",
+		"types": ["town","village","whole"]
+	}
+}
