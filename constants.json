@@ -9,6 +9,6 @@
 	},
 	"db":{
 		"url": "localhost:27017/MEANapp",
-		"types": ["town","village","whole"]
+		"types": ["town","village","fair"]
 	}
 }
