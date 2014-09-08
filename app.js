@@ -20,7 +20,7 @@ app.use(logger('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-app.use(serveStatic(path.join(__dirname,'webpage','static')));
+app.use('/static',serveStatic(path.join(__dirname,'webpage','static')));
 
 app.use('/',routes);
 
