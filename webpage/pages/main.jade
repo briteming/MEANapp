@@ -1,6 +1,6 @@
 
 doctype html
-html(lang='zh-CN', ng-app="fuck")
+html(lang='zh-CN')
 	head
 		meta(charset='utf8')
 		meta(name='viewport', content='width=device-width, initial-scale=1')
@@ -9,17 +9,34 @@ html(lang='zh-CN', ng-app="fuck")
 		script(src=consts.web.local?'/static/js/jquery.min.js':'http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js')
 		script(src=consts.web.local?'/static/js/angular.min.js':'http://cdn.bootcss.com/angular.js/1.3.0-beta.8/angular.min.js')
 		script(src=consts.web.local?'/static/js/bootstrap.min.js':'http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js')
-		script!= 'ds=JSON.parse(\''+JSON.stringify(ds)+'\')'
 		script.
 			var fuck = angular.module('fuck',[]);
-			fuck.controller('listctrl',function($scope){
-				$scope.town = ds.town;
+			fuck.controller('listctrl',function($scope,$http){
+				$http.get('/static/datascheme.json').success(function(data){
+					$scope.town = data.town;
+				});
+				$scope.save = function(){
+					$http.post('/save',$scope.formdata).success(function(data){
+						console.log($scope.formdata.t8);
+						console.log(data);
+					}).error(function(){
+						console.log('what he fu');
+					});
+				};
+				$scope.formdata = {};
 			});
-	body
-		.container
-			div(ng-controller="listctrl")
-				div
-					input(ng-model='query')
-				select
-					option(ng-repeat='i in town') {{i}}
-			
+	body(ng-app='fuck',ng-switch='1')
+		ul.nav.nav-tabs(role='tablist')
+			li.active(role='presentation')
+				a(href='#') Town
+			li(role='presentation')
+				a(href='#') Village
+			li(role='presentation')
+				a(href='#') Load
+		.container(ng-switch-when='1')
+			form.form-horizontal(role='form',ng-controller="listctrl")
+				.form-group(ng-repeat='(i,j) in town')
+					label.col-md-2.control-lable.text-right(for='{{i}}') {{j}}
+					.col-md-9
+						input.form-control(id='{{i}}',type='text',ng-model='formdata[i]')
+				button.btn.btn-default(ng-click='save()') Submit

@@ -18,6 +18,7 @@ app.set('view engine','jade');
 app.use(logger('dev'));
 
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use('/static',serveStatic(path.join(__dirname,'webpage','static')));
