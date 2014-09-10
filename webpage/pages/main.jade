@@ -6,37 +6,109 @@ html(lang='zh-CN')
 		meta(name='viewport', content='width=device-width, initial-scale=1')
 		title= consts.app.name
 		link(rel='stylesheet', href=consts.web.local?'/static/css/bootstrap.min.css':'http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css')
+		style.
+			.alert {
+				position: fixed;
+				width: 100%;
+				z-index: 10;
+			}
 		script(src=consts.web.local?'/static/js/jquery.min.js':'http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js')
 		script(src=consts.web.local?'/static/js/angular.min.js':'http://cdn.bootcss.com/angular.js/1.3.0-beta.8/angular.min.js')
 		script(src=consts.web.local?'/static/js/bootstrap.min.js':'http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js')
 		script.
 			var fuck = angular.module('fuck',[]);
-			fuck.controller('listctrl',function($scope,$http){
+
+			fuck.controller('root',function($scope){
+				//- initialize (pseudo) global variable
+				$scope.glob = {
+					tab: 'save-town',
+					alert: {type:'hidden'}
+				};
+			});
+
+			fuck.controller('alerter',function($scope){
+				$scope.$watch('glob.alert.type',function(from,to){
+					if(to.type!='hidden'){
+						setTimeout(function(){$scope.glob.alert={type:"hidden"};$scope.$digest()},3000);
+					}else{
+						console.log(from);
+						console.log(to);
+						/*there still be something unclear, but it works :) */
+					}
+				});
+			});
+
+			fuck.controller('switcher',function($scope){
+				$scope.active = {town:'active'};
+				$scope.click = {
+					town: function(){
+						$scope.active = {town:'active'};
+						$scope.glob.tab = 'save-town';
+					},
+					village: function(){
+						$scope.active = {village:'active'};
+						$scope.glob.tab = 'save-village';
+					},
+					load: function(){
+						$scope.active = {load:'active'};
+						$scope.glob.tab = 'load';
+					}
+				};
+			});
+
+			fuck.controller('save-town',function($scope,$http){
 				$http.get('/static/datascheme.json').success(function(data){
 					$scope.town = data.town;
 				});
 				$scope.save = function(){
-					$http.post('/save',$scope.formdata).success(function(data){
-						console.log($scope.formdata.t8);
-						console.log(data);
+					$http.post('/save?type=town',$scope.formdata).success(function(data){
+						if(!data.err){
+							$scope.glob.alert = {type:'alert-danger',content:'Sorry, data was not saved.'};
+						}else{
+							$scope.glob.alert = {type:'alert-success',content:'Data was saved successfully!'};
+							console.error(err);
+						}
 					}).error(function(){
-						console.log('what he fu');
+						$scope.glob.alert = {type:'alert-danger',content:'Sorry, data was not saved.'};
 					});
 				};
 				$scope.formdata = {};
 			});
-	body(ng-app='fuck',ng-switch='1')
-		ul.nav.nav-tabs(role='tablist')
-			li.active(role='presentation')
+
+			fuck.controller('save-village',function($scope,$http){
+				$http.get('/static/datascheme.json').success(function(data){
+					$scope.village = data.village;
+				});
+				$scope.save = function(){
+					$http.post('/save',$scope.formdata).success(function(data){
+						console.log('sucee');
+					});
+				};
+				$scope.formdata={};
+			});
+	body(ng-app='fuck',ng-controller='root')
+		div(ng-controller='alerter')
+			div(class='alert {{glob.alert.type}}', role='alert') {{glob.alert.content}}
+		ul.nav.nav-tabs(role='tablist', ng-controller='switcher')
+			li(role='presentation', class='{{active.town}}', ng-click='click.town()')
 				a(href='#') Town
-			li(role='presentation')
+			li(role='presentation', class='{{active.village}}', ng-click='click.village()')
 				a(href='#') Village
-			li(role='presentation')
+			li(role='presentation', class='{{active.load}}', ng-click='click.load()')
 				a(href='#') Load
-		.container(ng-switch-when='1')
-			form.form-horizontal(role='form',ng-controller="listctrl")
-				.form-group(ng-repeat='(i,j) in town')
-					label.col-md-2.control-lable.text-right(for='{{i}}') {{j}}
-					.col-md-9
-						input.form-control(id='{{i}}',type='text',ng-model='formdata[i]')
-				button.btn.btn-default(ng-click='save()') Submit
+		.container
+			div(ng-switch='glob.tab')
+				div(ng-switch-when='save-town')
+					form.form-horizontal(role='form',ng-controller="save-town")
+						.form-group(ng-repeat='(i,j) in town')
+							label.col-md-2.control-lable.text-right(for='{{i}}') {{j}}
+							.col-md-9
+								input.form-control(id='{{i}}',type='text',ng-model='formdata[i]')
+						button.btn.btn-default(ng-click='save()') Submit
+				div(ng-switch-when='save-village')
+					form.form-horizontal(role='form',ng-controller="save-village")
+						.form-group(ng-repeat='(i,j) in village')
+							label.col-md-2.control-lable.text-right(for='{{i}}') {{j}}
+							.col-md-9
+								input.form-control(id='{{i}}',type='text',ng-model='formdata[i]')
+						button.btn.btn-default(ng-click='save()') Submit

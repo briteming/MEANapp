@@ -11,8 +11,10 @@ var db = monk(consts.db.url);
 var save = function(type,content,callback){
 	if(isValid(type,content)){
 		db.get(type).insert(clean(type,content));
+		console.log('fuck!!');
 		if(callback){
 			callback(false,type,content);
+			console.log(content);
 		}
 	}else{
 		callback(new Error('Not Valid Data!'),type,content);
