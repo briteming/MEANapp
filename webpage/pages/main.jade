@@ -86,6 +86,19 @@ html(lang='zh-CN')
 				};
 				$scope.formdata={};
 			});
+
+			fuck.controller('load',function($scope,$http){
+				$scope.load = function(){
+					$http.post('/load',$scope.formdata).success(function(data){
+						if(!data.err){
+							console.log(data.content);
+						}else{
+							consoel.log(data.err);
+						}
+					});
+				};
+				$scope.formdata={};
+			});
 	body(ng-app='fuck',ng-controller='root')
 		div(ng-controller='alerter')
 			div(class='alert {{glob.alert.type}}', role='alert') {{glob.alert.content}}
@@ -112,3 +125,10 @@ html(lang='zh-CN')
 							.col-md-9
 								input.form-control(id='{{i}}',type='text',ng-model='formdata[i]')
 						button.btn.btn-default(ng-click='save()') Submit
+				div(ng-switch-when='load')
+					form.form-horizontal(role='form',ng-controller='load')
+						.form-group
+							lable.col-md-2.control-lable.text-right(for='loadByName') loadByName
+							.col-md-9
+								input.form-control(id='loadByName',type='text',ng-model='formdata["name"]')
+						button.btn.btn-default(ng-click='load()') Submit
