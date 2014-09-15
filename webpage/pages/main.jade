@@ -69,9 +69,9 @@ html(lang='zh-CN')
 				$scope.save = function(){
 					$http.post('/save?type=town',$scope.formdata).success(function(data){
 						if(!data.err){
-							$scope.glob.alert = {type:'alert-danger',content:'Sorry, data was not saved.'};
-						}else{
 							$scope.glob.alert = {type:'alert-success',content:'Data was saved successfully!'};
+						}else{
+							$scope.glob.alert = {type:'alert-danger',content:'Sorry, data was not saved.'};
 							console.error(err);
 						}
 					}).error(function(){
@@ -82,7 +82,6 @@ html(lang='zh-CN')
 				$scope.$watch('glob.ds',function(value){
 					var a = {};
 					for(i in value.town){
-						console.log(i);
 						if(i[0] == 'r'){
 							a[i] = value.town[i]._name;
 						}
@@ -94,11 +93,28 @@ html(lang='zh-CN')
 
 			fuck.controller('save-village',function($scope,$http){
 				$scope.save = function(){
-					$http.post('/save',$scope.formdata).success(function(data){
-						console.log('sucee');
+					$http.post('/save?type=village',$scope.formdata).success(function(data){
+						if(!data.err){
+							$scope.glob.alert = {type:'alert-success',content:'Data was saved successfully!'};
+						}else{
+							$scope.glob.alert = {type:'alert-danger',content:'Sorry, data was not saved.'};
+							console.error(err);
+						}
+					}).error(function(){
+						$scope.glob.alert = {type:'alert-danger',content:'Sorry, data was not saved.'};
 					});
 				};
-				$scope.formdata={};
+				$scope.attrlist = {};
+				$scope.$watch('glob.ds',function(value){
+					var a = {};
+					for(i in value.village){
+						if(i[0] == 'r' || i[0] == 's'){
+							a[i] = value.village[i]._name;
+						}
+					}
+					$scope.attrlist = a;
+				});
+				$scope.formdata = {};
 			});
 
 			fuck.controller('load',function($scope,$http){
@@ -134,7 +150,7 @@ html(lang='zh-CN')
 						button.btn.btn-default(ng-click='save()') Submit
 				div(ng-switch-when='save-village')
 					form.form-horizontal(role='form',ng-controller="save-village")
-						.form-group(ng-repeat='(i,j) in village')
+						.form-group(ng-repeat='(i,j) in attrlist')
 							label.col-md-2.control-lable.text-right(for='{{i}}') {{j}}
 							.col-md-9
 								input.form-control(id='{{i}}',type='text',ng-model='formdata[i]')

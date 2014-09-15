@@ -9,5 +9,22 @@ var monk = require('monk');
 var db = monk(consts.db.url);
 
 var update = function(){
-
+	/*TODO*/
+	return new Error("TODO");
 };
+
+update.addVillageToTown = function(townid,villageid,callback){
+	db.get('town').update({_id:townid},{$push:{s1:villageid}}).success(function(){
+		debug.log("A village was added to a town successfully (update.js - 9316)");
+		if(callback){
+			callback(false);
+		}
+	}).error(function(a){
+		debug.error("Add a village to a town failed! (update.js - 3829)");
+		if(callback){
+			callback(new Error("Unknown bug"));
+		}
+	});
+};
+
+module.exports = update;
