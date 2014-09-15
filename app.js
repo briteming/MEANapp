@@ -6,6 +6,7 @@ var logger = require('morgan');
 var serveStatic = require('serve-static');
 
 var routes = require('./webserver/routes/index');
+var linkroute = require('./webserver/routes/link');
 
 
 
@@ -22,7 +23,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use('/static',serveStatic(path.join(__dirname,'webpage','static')));
-
+app.use('/link',linkroute);
 app.use('/',routes);
 
 app.use(function(req, res, next){

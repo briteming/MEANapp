@@ -18,12 +18,21 @@ html(lang='zh-CN')
 		script.
 			var fuck = angular.module('fuck',[]);
 
-			fuck.controller('root',function($scope){
+			fuck.controller('root',function($scope,$http){
 				//- initialize (pseudo) global variable
 				$scope.glob = {
 					tab: 'save-town',
 					alert: {type:'hidden'}
 				};
+
+				$http.get('/link/datascheme').success(function(data){
+					$scope.glob.ds = data;
+				}).error(function(){
+					$scope.glob.alert={
+						type:"alert-danger",
+						content:"Oops, fail to load this page!"
+					};
+				});
 			});
 
 			fuck.controller('alerter',function($scope){
@@ -57,9 +66,6 @@ html(lang='zh-CN')
 			});
 
 			fuck.controller('save-town',function($scope,$http){
-				$http.get('/static/datascheme.json').success(function(data){
-					$scope.town = data.town;
-				});
 				$scope.save = function(){
 					$http.post('/save?type=town',$scope.formdata).success(function(data){
 						if(!data.err){
@@ -72,13 +78,21 @@ html(lang='zh-CN')
 						$scope.glob.alert = {type:'alert-danger',content:'Sorry, data was not saved.'};
 					});
 				};
+				$scope.attrlist = {};
+				$scope.$watch('glob.ds',function(value){
+					var a = {};
+					for(i in value.town){
+						console.log(i);
+						if(i[0] == 'r'){
+							a[i] = value.town[i]._name;
+						}
+					}
+					$scope.attrlist = a;
+				});
 				$scope.formdata = {};
 			});
 
 			fuck.controller('save-village',function($scope,$http){
-				$http.get('/static/datascheme.json').success(function(data){
-					$scope.village = data.village;
-				});
 				$scope.save = function(){
 					$http.post('/save',$scope.formdata).success(function(data){
 						console.log('sucee');
@@ -93,7 +107,7 @@ html(lang='zh-CN')
 						if(!data.err){
 							console.log(data.content);
 						}else{
-							consoel.log(data.err);
+							console.log(data.err);
 						}
 					});
 				};
@@ -113,7 +127,7 @@ html(lang='zh-CN')
 			div(ng-switch='glob.tab')
 				div(ng-switch-when='save-town')
 					form.form-horizontal(role='form',ng-controller="save-town")
-						.form-group(ng-repeat='(i,j) in town')
+						.form-group(ng-repeat='(i,j) in attrlist')
 							label.col-md-2.control-lable.text-right(for='{{i}}') {{j}}
 							.col-md-9
 								input.form-control(id='{{i}}',type='text',ng-model='formdata[i]')
