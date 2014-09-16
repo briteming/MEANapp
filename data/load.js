@@ -12,7 +12,8 @@ var ds = require('./datascheme');
 var db = monk(consts.db.url);
 
 var load = function(type,query,callback){
-	db.get(type).find({t01:query.name},function(err,content){
+	db.get(type).find(query,function(err,content){
+		content = content[0];
 		for(i in ds[type]){
 			if(i[0] == 'i'){
 				content[i] = formula[ds[type][i]['_formula']](content);

@@ -1,8 +1,9 @@
 var express = require('express');
 var ds = require('../../data/datascheme');
 var consts = require('../../constants');
-var save = require('../../data/save.js');
-var load = require('../../data/load.js');
+var debug = require('../../debug');
+var save = require('../../data/save');
+var load = require('../../data/load');
 var router = express.Router();
 
 router.get('/', function(req,res){
@@ -18,12 +19,18 @@ router.post('/save',function(req,res){
 });
 
 router.post('/load',function(req,res){
-	load('town',req.body,function(err,type,content){
-		console.log(content);
+	if(req.body && (req.body.type == 'town' || req.body.type == 'village')){
+		load(req.body.type,{r1:req.body.name},function(err,type,content){
+			res.end(JSON.stringify({
+				err:err,
+				content:content
+			}));
+		});
+	}else{
+		debug.exception("receved a post with no type");
 		res.end(JSON.stringify({
-			err:err,
-			content:content
+			err: "no type submit!"
 		}));
-	});
+	}
 });
 module.exports = router;

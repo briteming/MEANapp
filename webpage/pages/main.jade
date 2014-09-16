@@ -81,9 +81,11 @@ html(lang='zh-CN')
 				$scope.attrlist = {};
 				$scope.$watch('glob.ds',function(value){
 					var a = {};
-					for(i in value.town){
-						if(i[0] == 'r'){
-							a[i] = value.town[i]._name;
+					if(value){
+						for(i in value.town){
+							if(i[0] == 'r'){
+								a[i] = value.town[i]._name;
+							}
 						}
 					}
 					$scope.attrlist = a;
@@ -107,9 +109,11 @@ html(lang='zh-CN')
 				$scope.attrlist = {};
 				$scope.$watch('glob.ds',function(value){
 					var a = {};
-					for(i in value.village){
-						if(i[0] == 'r' || i[0] == 's'){
-							a[i] = value.village[i]._name;
+					if(value){
+						for(i in value.village){
+							if(i[0] == 'r' || i[0] == 's'){
+								a[i] = value.village[i]._name;
+							}
 						}
 					}
 					$scope.attrlist = a;
@@ -144,21 +148,30 @@ html(lang='zh-CN')
 				div(ng-switch-when='save-town')
 					form.form-horizontal(role='form',ng-controller="save-town")
 						.form-group(ng-repeat='(i,j) in attrlist')
-							label.col-md-2.control-lable.text-right(for='{{i}}') {{j}}
+							label.col-md-2.control-label.text-right(for='{{i}}') {{j}}
 							.col-md-9
 								input.form-control(id='{{i}}',type='text',ng-model='formdata[i]')
-						button.btn.btn-default(ng-click='save()') Submit
+						button.btn.btn-default.col-md-offset-2(ng-click='save()') Submit
 				div(ng-switch-when='save-village')
 					form.form-horizontal(role='form',ng-controller="save-village")
 						.form-group(ng-repeat='(i,j) in attrlist')
-							label.col-md-2.control-lable.text-right(for='{{i}}') {{j}}
+							label.col-md-2.control-label.text-right(for='{{i}}') {{j}}
 							.col-md-9
 								input.form-control(id='{{i}}',type='text',ng-model='formdata[i]')
-						button.btn.btn-default(ng-click='save()') Submit
+						button.btn.btn-default.col-md-offset-2(ng-click='save()') Submit
 				div(ng-switch-when='load')
 					form.form-horizontal(role='form',ng-controller='load')
 						.form-group
-							lable.col-md-2.control-lable.text-right(for='loadByName') loadByName
+							label.col-md-2.control-label.text-right(for='type') Type
+							.col-md-9
+								label.radio-inline 
+									input#radio-town(type='radio',name='type',value='town',ng-model='formdata["type"]')
+									| Town
+								label.radio-inline 
+									input#radio-village(type='radio',name='type',value='village',ng-model='formdata["type"]')
+									| Village
+						.form-group
+							label.col-md-2.control-label.text-right(for='loadByName') Name
 							.col-md-9
 								input.form-control(id='loadByName',type='text',ng-model='formdata["name"]')
-						button.btn.btn-default(ng-click='load()') Submit
+						button.btn.btn-default.col-md-offset-2(ng-click='load()') Submit
