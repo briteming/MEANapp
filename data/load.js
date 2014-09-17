@@ -37,4 +37,43 @@ load.one = function(type,id,callback){
 	});
 };
 
+load.town = function(query,callback){
+	db.get('town').find(query,function(err,content){
+		content = content[0];
+		load.villageDatas(content,function(data){
+			for(i in ds['town']){
+				if(i[0] == 'i'){
+					data[i] = formula[ds['town'][i]['_formula']](data);
+				}
+			}
+			if(callback){
+				callback(err,'town',data);
+			}else{
+				debug.exception("Queried but no callback (load.js - 5817)");
+			}
+		});
+	});
+}
+
+load.villageDatas = function(town,callback){
+	var iter = function(town,callback,villageList){
+		var x = town.s1.pop();
+		if(x){
+			load.one('village',x,function(content){
+				if(!content){
+					debug.warn("read one village failed (load.js - 4961)");
+					callback(void(0));
+					return;
+				}
+				villageList.push(content);
+				iter(town,callback,villageList);
+			});
+			return;
+		}
+		town.s1 = villageList;
+		callback(town);
+	};
+	iter(town,callback,[]);
+};
+
 module.exports = load;

@@ -27,7 +27,7 @@ router.post('/load',function(req,res){
 			}));
 		});
 	}else{
-		debug.exception("receved a post with no type");
+		debug.exception("receved a post with no type (index.js - 0147)");
 		res.end(JSON.stringify({
 			err: "no type submit!"
 		}));
