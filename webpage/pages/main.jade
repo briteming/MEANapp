@@ -125,8 +125,10 @@ html(lang='zh-CN')
 				$scope.load = function(){
 					$http.post('/load',$scope.formdata).success(function(data){
 						if(!data.err){
-							console.log(data.content);
+							$scope.glob.alert = {type:'alert-success',content:'load successfully'};
+							alert(JSON.stringify(data.content));
 						}else{
+							$scope.glob.alert = {type:'alert-danger',content:'load failed'};
 							console.log(data.err);
 						}
 					});

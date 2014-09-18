@@ -47,7 +47,7 @@ load.town = function(query,callback){
 				}
 			}
 			if(callback){
-				callback(err,'town',data);
+				callback(err,data);
 			}else{
 				debug.exception("Queried but no callback (load.js - 5817)");
 			}

@@ -19,8 +19,8 @@ router.post('/save',function(req,res){
 });
 
 router.post('/load',function(req,res){
-	if(req.body && (req.body.type == 'town' || req.body.type == 'village')){
-		load(req.body.type,{r1:req.body.name},function(err,type,content){
+	if(req.body && req.body.type == 'town'){
+		load.town({r1:req.body.name},function(err,content){
 			res.end(JSON.stringify({
 				err:err,
 				content:content

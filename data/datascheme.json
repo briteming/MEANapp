@@ -44,10 +44,88 @@
 			"_name":"医疗服务评价"
 		},
 		"i1":{
-			"_name":"生均学校建筑面积",
+			"_name":"镇区生均学校建筑面积",
 			"_frame":0,
 			"_guide":0,
 			"_formula":"townSchoolAreaPerStudent"
+		},
+		"i2":{
+			"_name":"村庄生均学校建筑面积",
+			"_frame":0,
+			"_guide":0,
+			"_formula":"villageSchoolAreaPerStudent"
+		},
+		"i3":{
+			"_name":"村庄生均学校建筑面积均衡度",
+			"_frame":0,
+			"_guide":0,
+			"_formula":"equitabilityOfVillageSchoolAreaPerStudent"
+		},
+		"i4":{
+			"_name":"镇区专业技术学校建筑面积比重",
+			"_frame":0,
+			"_guide":0,
+			"_formula":"proportionOfTechnicalSchoolArea"
+		},
+		"i5":{
+			"_name":"镇区学校服务评价",
+			"_frame":0,
+			"_guide":0,
+			"_formula":"evaluationOfTownEducation"
+		},
+		"i6":{
+			"_name":"村庄学校服务评价",
+			"_frame":0,
+			"_guide":0,
+			"_formula":"evaluationOfVillageEducation"
+		},
+		"i7":{
+			"_name":"镇区学生平均绿色出行比重",
+			"_frame":0,
+			"_guide":1,
+			"_formula":"proportionOfTownGreenCommutionStudent"
+		},
+		"i8":{
+			"_name":"村庄学生平均绿色出行比重",
+			"_frame":0,
+			"_guide":1,
+			"_formula":"proportionOfVillageGreenCommutionStudent"
+		},
+		"i9":{
+			"_name":"千人病床数",
+			"_frame":1,
+			"_guide":0,
+			"_formula":"sickbedPerThousand"
+		},
+		"i10":{
+			"_name":"镇区人均卫生设施建筑面积",
+			"_frame":1,
+			"_guide":0,
+			"_formula":"townHealthFacilitiesAreaPerCapita"
+		},
+		"i11":{
+			"_name":"村庄人均卫生设施建筑面积",
+			"_frame":1,
+			"_guide":0,
+			"_formula":"villageHealthFacilitiesAreaPerCapita"
+		},
+		"i12":{
+			"_name":"镇区医疗服务评价",
+			"_frame":1,
+			"_guide":0,
+			"_formula":"evaluationOfTownHealthService"
+		},
+		"i13":{
+			"_name":"村庄医疗服务评价",
+			"_frame":1,
+			"_guide":0,
+			"_formula":"evaluationOfVillageHealthService"
+		},
+		"i14":{
+			"_name":"15分钟急救覆盖镇域范围",
+			"_frame":1,
+			"_guide":1,
+			"_formula":"fifteenAidCoverage"
 		}
 	},
 	"village":{
