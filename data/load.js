@@ -53,7 +53,18 @@ load.town = function(query,callback){
 			}
 		});
 	});
-}
+};
+
+load.village = function(query,callback){
+	db.get('village').find(query,function(err,content){
+		content = content[0];
+		if(callback){
+			callback(err,content);
+		}else{
+			debug.exception("Queried but no callback (load.js - 8921)");
+		}
+	});
+};
 
 load.villageDatas = function(town,callback){
 	var iter = function(town,callback,villageList){

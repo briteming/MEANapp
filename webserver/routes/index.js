@@ -23,6 +23,15 @@ router.post('/load',function(req,res){
 		load.town({r1:req.body.name},function(err,content){
 			res.end(JSON.stringify({
 				err:err,
+				type:'town',
+				content:content
+			}));
+		});
+	}else if(req.body && req.body.type == 'village'){
+		load.village({r1:req.body.name},function(err,content){
+			res.end(JSON.stringify({
+				err:err,
+				type:'village',
 				content:content
 			}));
 		});
