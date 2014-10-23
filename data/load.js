@@ -41,9 +41,11 @@ load.town = function(query,callback){
 	db.get('town').find(query,function(err,content){
 		content = content[0];
 		load.villageDatas(content,function(data){
-			for(i in ds['town']){
-				if(i[0] == 'i'){
-					data[i] = formula[ds['town'][i]['_formula']](data);
+			if(data.s1.length){
+				for(i in ds['town']){
+					if(i[0] == 'i'){
+						data[i] = formula[ds['town'][i]['_formula']](data);
+					}
 				}
 			}
 			if(callback){
@@ -84,6 +86,10 @@ load.villageDatas = function(town,callback){
 		town.s1 = villageList;
 		callback(town);
 	};
+	if(!town.s1 || town.s1.length == 0){
+		town.s1 = [];
+		callback(town);
+	}
 	iter(town,callback,[]);
 };
 

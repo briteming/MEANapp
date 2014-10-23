@@ -193,38 +193,38 @@ html(lang='zh-CN')
 		.container
 			div(ng-switch='glob.tab')
 				div(ng-switch-when='save-town')
-					h1 Add a town:
+					h1 添加镇子数据:
 					form.form-horizontal(role='form',ng-controller="save-town")
 						.form-group(ng-repeat='(i,j) in attrlist')
 							label.col-md-2.control-label.text-right(for='{{i}}') {{j}}
 							.col-md-9
 								input.form-control(id='{{i}}',type='text',ng-model='formdata[i]')
-						button.btn.btn-default.col-md-offset-2(ng-click='save()') Submit
+						button.btn.btn-default.col-md-offset-2(ng-click='save()') 提交
 				div(ng-switch-when='save-village')
-					h1 Add a village:
+					h1 添加村子数据:
 					form.form-horizontal(role='form',ng-controller="save-village")
 						.form-group(ng-repeat='(i,j) in attrlist')
 							label.col-md-2.control-label.text-right(for='{{i}}') {{j}}
 							.col-md-9
 								input.form-control(id='{{i}}',type='text',ng-model='formdata[i]')
-						button.btn.btn-default.col-md-offset-2(ng-click='save()') Submit
+						button.btn.btn-default.col-md-offset-2(ng-click='save()') 提交
 				div(ng-switch-when='load')
-					h1 Load a record:
+					h1 读取数据:
 					form.form-horizontal(role='form',ng-controller='load')
 						.form-group
-							label.col-md-2.control-label.text-right(for='type') Type
+							label.col-md-2.control-label.text-right(for='type') 类型
 							.col-md-9
 								label.radio-inline 
 									input#radio-town(type='radio',name='type',value='town',ng-model='formdata["type"]')
-									| Town
+									| 镇子
 								label.radio-inline 
 									input#radio-village(type='radio',name='type',value='village',ng-model='formdata["type"]')
-									| Village
+									| 村子
 						.form-group
-							label.col-md-2.control-label.text-right(for='loadByName') Name
+							label.col-md-2.control-label.text-right(for='loadByName') 地名
 							.col-md-9
 								input.form-control(id='loadByName',type='text',ng-model='formdata["name"]')
-						button.btn.btn-default.col-md-offset-2(ng-click='load()') Submit
+						button.btn.btn-default.col-md-offset-2(ng-click='load()') 提交
 					div(ng-controller='result')
 						div(class='{{glob.result.show?"":"hidden"}}')
 							h2 Results:
@@ -233,20 +233,20 @@ html(lang='zh-CN')
 									caption {{glob.result.raw.r1}}
 									thead
 										tr
-											th term
-											th value
+											th 项目
+											th 值
 									tbody
 										tr(ng-repeat="(i,j) in glob.result.raw")
 											td {{i}}
 											td {{j}}
 										tr
-											td id
+											td 编号
 											td {{glob.result.id}}
 										tr
-											td villages
+											td 下属村子
 											td {{glob.result.village.join(' ')}}
 										tr
-											th(colspan='2') indicators
+											th(colspan='2') 评价指标
 										tr(ng-repeat="(i,j) in glob.result.indicator")
 											td {{i}}
 											td {{j}}
@@ -254,12 +254,12 @@ html(lang='zh-CN')
 									caption {{glob.result.raw.r1}}
 									thead
 										tr
-											th term
-											th value
+											th 项目
+											th 值
 									tbody
 										tr(ng-repeat="(i,j) in glob.result.raw")
 											td {{i}}
 											td {{j}}
 										tr
-											td id
+											td 编号
 											td {{glob.result.id}}

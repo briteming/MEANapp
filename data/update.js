@@ -13,8 +13,8 @@ var update = function(){
 	return new Error("TODO");
 };
 
-update.addVillageToTown = function(townid,villageid,callback){
-	db.get('town').update({_id:townid},{$push:{s1:villageid}}).success(function(){
+update.addVillageToTown = function(townname,villageid,callback){
+	db.get('town').update({r1:townname},{$push:{s1:villageid}}).success(function(){
 		debug.log("A village was added to a town successfully (update.js - 9316)");
 		if(callback){
 			callback(false);
