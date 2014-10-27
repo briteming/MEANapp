@@ -15,6 +15,23 @@ html(lang='zh-CN')
 			th {
 				text-align:center;
 			}
+			#banner {
+				position: relative;
+				padding: 60px 30px 30px 30px;
+				text-shadow: 1px 1px 1px black;
+				background-image: url(/static/images/title-background.png);
+				background-size: 100% 100%;
+			}
+			.my-gray-border {
+				border: 1px solid #DDD;
+				border-radius: 4px;
+			}
+			.my-vertical-gap-sm {
+				margin-top: 10px;
+			}
+			.my-vertical-gap-md {
+				margin-top: 30px;
+			}
 		script(src=consts.web.local?'/static/js/jquery.min.js':'http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js')
 		script(src=consts.web.local?'/static/js/angular.min.js':'http://cdn.bootcss.com/angular.js/1.3.0-beta.8/angular.min.js')
 		script(src=consts.web.local?'/static/js/bootstrap.min.js':'http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js')
@@ -181,85 +198,95 @@ html(lang='zh-CN')
 				console.log($scope.glob.ds);
 			});
 	body(ng-app='fuck',ng-controller='root')
-		div(ng-controller='alerter')
+		div#alerter(ng-controller='alerter')
 			div(class='alert {{glob.alert.type}}', role='alert') {{glob.alert.content}}
-		ul.nav.nav-tabs(role='tablist', ng-controller='switcher')
-			li(role='presentation', class='{{active.town}}', ng-click='click.town()')
-				a(href='#') Town
-			li(role='presentation', class='{{active.village}}', ng-click='click.village()')
-				a(href='#') Village
-			li(role='presentation', class='{{active.load}}', ng-click='click.load()')
-				a(href='#') Load
-		.container
-			div(ng-switch='glob.tab')
-				div(ng-switch-when='save-town')
-					h1 添加镇子数据:
-					form.form-horizontal(role='form',ng-controller="save-town")
-						.form-group(ng-repeat='(i,j) in attrlist')
-							label.col-md-2.control-label.text-right(for='{{i}}') {{j}}
-							.col-md-9
-								input.form-control(id='{{i}}',type='text',ng-model='formdata[i]')
-						button.btn.btn-default.col-md-offset-2(ng-click='save()') 提交
-				div(ng-switch-when='save-village')
-					h1 添加村子数据:
-					form.form-horizontal(role='form',ng-controller="save-village")
-						.form-group(ng-repeat='(i,j) in attrlist')
-							label.col-md-2.control-label.text-right(for='{{i}}') {{j}}
-							.col-md-9
-								input.form-control(id='{{i}}',type='text',ng-model='formdata[i]')
-						button.btn.btn-default.col-md-offset-2(ng-click='save()') 提交
-				div(ng-switch-when='load')
-					h1 读取数据:
-					form.form-horizontal(role='form',ng-controller='load')
-						.form-group
-							label.col-md-2.control-label.text-right(for='type') 类型
-							.col-md-9
-								label.radio-inline 
-									input#radio-town(type='radio',name='type',value='town',ng-model='formdata["type"]')
-									| 镇子
-								label.radio-inline 
-									input#radio-village(type='radio',name='type',value='village',ng-model='formdata["type"]')
-									| 村子
-						.form-group
-							label.col-md-2.control-label.text-right(for='loadByName') 地名
-							.col-md-9
-								input.form-control(id='loadByName',type='text',ng-model='formdata["name"]')
-						button.btn.btn-default.col-md-offset-2(ng-click='load()') 提交
-					div(ng-controller='result')
-						div(class='{{glob.result.show?"":"hidden"}}')
-							h2 Results:
-							div(ng-switch='glob.result.type')
-								table.table.table-bordered(ng-switch-when='town')
-									caption {{glob.result.raw.r1}}
-									thead
-										tr
-											th 项目
-											th 值
-									tbody
-										tr(ng-repeat="(i,j) in glob.result.raw")
-											td {{i}}
-											td {{j}}
-										tr
-											td 编号
-											td {{glob.result.id}}
-										tr
-											td 下属村子
-											td {{glob.result.village.join(' ')}}
-										tr
-											th(colspan='2') 评价指标
-										tr(ng-repeat="(i,j) in glob.result.indicator")
-											td {{i}}
-											td {{j}}
-								table.table.table-bordered(ng-switch-when='village')
-									caption {{glob.result.raw.r1}}
-									thead
-										tr
-											th 项目
-											th 值
-									tbody
-										tr(ng-repeat="(i,j) in glob.result.raw")
-											td {{i}}
-											td {{j}}
-										tr
-											td 编号
-											td {{glob.result.id}}
+		div#banner
+			div.container
+				h1 12345678
+				p 87656321312132131312312323123123213123123213211312312312
+				p(style="float:right;margin-right:20px") 123456
+		div#navbar.container-flude(role='navigation')
+			
+		.container.my-vertical-gap-md
+			div#sidebar.col-md-3
+			div#mainwindow.col-md-9.my-gray-border
+				ul.nav.nav-tabs(role='tablist', ng-controller='switcher')
+					li(role='presentation', class='{{active.town}}', ng-click='click.town()')
+						a(href='#') Town
+					li(role='presentation', class='{{active.village}}', ng-click='click.village()')
+						a(href='#') Village
+					li(role='presentation', class='{{active.load}}', ng-click='click.load()')
+						a(href='#') Load
+				div
+					div(ng-switch='glob.tab')
+						div(ng-switch-when='save-town')
+							h1 添加镇子数据:
+							form.form-horizontal(role='form',ng-controller="save-town")
+								.form-group(ng-repeat='(i,j) in attrlist')
+									label.col-md-2.control-label.text-right(for='{{i}}') {{j}}
+									.col-md-9
+										input.form-control(id='{{i}}',type='text',ng-model='formdata[i]')
+								button.btn.btn-default.col-md-offset-2(ng-click='save()') 提交
+						div(ng-switch-when='save-village')
+							h1 添加村子数据:
+							form.form-horizontal(role='form',ng-controller="save-village")
+								.form-group(ng-repeat='(i,j) in attrlist')
+									label.col-md-2.control-label.text-right(for='{{i}}') {{j}}
+									.col-md-9
+										input.form-control(id='{{i}}',type='text',ng-model='formdata[i]')
+								button.btn.btn-default.col-md-offset-2(ng-click='save()') 提交
+						div(ng-switch-when='load')
+							h1 读取数据:
+							form.form-horizontal(role='form',ng-controller='load')
+								.form-group
+									label.col-md-2.control-label.text-right(for='type') 类型
+									.col-md-9
+										label.radio-inline 
+											input#radio-town(type='radio',name='type',value='town',ng-model='formdata["type"]')
+											| 镇子
+										label.radio-inline 
+											input#radio-village(type='radio',name='type',value='village',ng-model='formdata["type"]')
+											| 村子
+								.form-group
+									label.col-md-2.control-label.text-right(for='loadByName') 地名
+									.col-md-9
+										input.form-control(id='loadByName',type='text',ng-model='formdata["name"]')
+								button.btn.btn-default.col-md-offset-2(ng-click='load()') 提交
+							div(ng-controller='result')
+								div(class='{{glob.result.show?"":"hidden"}}')
+									h2 Results:
+									div(ng-switch='glob.result.type')
+										table.table.table-bordered(ng-switch-when='town')
+											caption {{glob.result.raw.r1}}
+											thead
+												tr
+													th 项目
+													th 值
+											tbody
+												tr(ng-repeat="(i,j) in glob.result.raw")
+													td {{i}}
+													td {{j}}
+												tr
+													td 编号
+													td {{glob.result.id}}
+												tr
+													td 下属村子
+													td {{glob.result.village.join(' ')}}
+												tr
+													th(colspan='2') 评价指标
+												tr(ng-repeat="(i,j) in glob.result.indicator")
+													td {{i}}
+													td {{j}}
+										table.table.table-bordered(ng-switch-when='village')
+											caption {{glob.result.raw.r1}}
+											thead
+												tr
+													th 项目
+													th 值
+											tbody
+												tr(ng-repeat="(i,j) in glob.result.raw")
+													td {{i}}
+													td {{j}}
+												tr
+													td 编号
+													td {{glob.result.id}}
